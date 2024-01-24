@@ -1,10 +1,6 @@
 ﻿@model CartDto
-
-@if(Model.CartHeader!=null && Model.CartDetails.Count() > 0)
-{
-    
-
-<form method="post">
+@if(Model.CartHeader!=null && Model.CartDetails?.Count()>0){
+<form method="post" asp-action="EmailCart">
     <br />
     <input asp-for="CartHeader.UserId" hidden />
     <input asp-for="CartHeader.CartHeaderId" hidden />
@@ -37,8 +33,8 @@
                     </div>
                 </div>
                 <hr />
-                @foreach(var cartObj in Model.CartDetails)
-                {
+
+                @foreach(var cartObj in Model.CartDetails){
                 <div class="row h-100">
                     <div class="col-4 col-md-2 text-center py-2">
                         <img src="@cartObj.Product.ImageUrl" class="rounded" width="100%" />
@@ -48,10 +44,10 @@
                         <div style="font-size:11px;">@Html.Raw(cartObj.Product.Description)</div>
                     </div>
                     <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
-                        <span style="font-size:17px;">@string.Format("{0:c}", cartObj.Product.Price)</span>
+                            <span style="font-size:17px;">@string.Format("{0:c}",cartObj.Product.Price) </span>
                     </div>
                     <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
-                        <span style="font-size:17px;">@cartObj.Count</span>
+                        <span style="font-size:17px;"> @cartObj.Count</span>
                     </div>
                     <div class="col-2 col-lg-1 p-0 pt-lg-4 text-center">
                         <a asp-action="Remove" asp-route-cartDetailsId="@cartObj.CartDetailsId" class="btn btn-sm btn-danger">
@@ -77,10 +73,10 @@
                         }
                     </div>
                     <div class="col-6 text-end">
-                        <span class="text-danger" style="font-size:21px;">  Order Total : @string.Format("{0:c}", Model.CartHeader.CartTotal) <br /></span>
+                        <span class="text-danger" style="font-size:21px;">  Order Total :  @string.Format("{0:c}", Model.CartHeader.CartTotal)  <br /></span>
                         @if (Model.CartHeader.Discount > 0)
                         {
-                            <span class="text-success"> Order Discount : @string.Format("{0:c}", Model.CartHeader.Discount) </span>
+                            <span class="text-success"> Order Discount :   @string.Format("{0:c}", Model.CartHeader.Discount ) </span>
                         }
                     </div>
                 </div>
@@ -90,15 +86,14 @@
                     <button type="submit" class="btn btn-outline-danger form-control">Email Cart</button>
                 </div>
                 <div class="col-6 col-md-3 offset-md-6">
-                    <button disabled class="btn btn-success form-control">Checkout (Comming Soon!)</button>
+                    <a asp-action="Checkout" class="btn btn-success form-control">Looks Good? </a>
                 </div>
             </div>
         </div>
     </div>
-    </form>
+</form>
 }
-else
-{
+else{
     <div>
         <p>Please add items to cart.</p>
     </div>
